@@ -71,11 +71,11 @@ public class InfiniteSpawn : MonoBehaviour
         float changedBottomGap = bottomGap;
         if (firstTime)
         {
-            changedBottomGap *= 1;
+            changedBottomGap *= 4f;
             firstTime = false;
             Debug.Log("First time");
         }
-        VerticalObject verticalObject = new VerticalObject(objectPrefab, changedBottomGap, topGap);
+        VerticalObject verticalObject = new VerticalObject(objectPrefab, 7f, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();
 
         if (availableScreenHeight - objectVerticalSize > 0)

@@ -484,13 +484,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
+      propertyPath: topGap
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
+        type: 3}
       propertyPath: bottomGap
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: screenScaleFactor
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608063, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
