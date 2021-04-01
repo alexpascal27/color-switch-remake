@@ -11,18 +11,15 @@ public class InfiniteSpawn : MonoBehaviour
     private float availableScreenHeight;
     [Range(0f, 3f)] [SerializeField] private float screenScaleFactor = 1.5f;
     public Vector3 vectorToAddToSpawnPoint = Vector3.zero;
-    
-    private List<VerticalObject> _verticalObjects;
+    private bool firstTime = true;
+    private List<VerticalObject> _verticalObjects = new List<VerticalObject>();
     
     void Awake()
     {
         // Get ScreenHeight
         availableScreenHeight = Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y) + Mathf.Abs(Camera.main.ScreenToWorldPoint(Vector3.zero).y);
         availableScreenHeight *= screenScaleFactor;
-        
-        
-
-        _verticalObjects = new List<VerticalObject>();
+        Debug.Log("AvailableScreenHeight: " + availableScreenHeight);
         
         // Spawn
         while (availableScreenHeight > 0)
@@ -36,20 +33,18 @@ public class InfiniteSpawn : MonoBehaviour
     {
         // Check first object
         // If out of screen bounds
-        
-        Debug.Log("ScreenArea: " + availableScreenHeight);
-        Debug.Log("VectorToAdd: " + vectorToAddToSpawnPoint);
-        
         bool firstObjectOutOfBounds = IsFirstObjectOutOfBounds();
 
         if (firstObjectOutOfBounds)
         {
             // Remove
             RemoveFirstObject();
+            Debug.Log("Removed");
             
             // Add
-            AddObject(shape);
+            Debug.Log("Add: " + AddObject(shape));;
         }
+        
     }
 
     private bool IsFirstObjectOutOfBounds()
@@ -73,7 +68,14 @@ public class InfiniteSpawn : MonoBehaviour
 
     private bool AddObject(GameObject objectPrefab)
     {
-        VerticalObject verticalObject = new VerticalObject(objectPrefab, bottomGap, topGap);
+        float changedBottomGap = bottomGap;
+        if (firstTime)
+        {
+            changedBottomGap *= 1;
+            firstTime = false;
+            Debug.Log("First time");
+        }
+        VerticalObject verticalObject = new VerticalObject(objectPrefab, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();
 
         if (availableScreenHeight - objectVerticalSize > 0)
@@ -101,6 +103,7 @@ public class InfiniteSpawn : MonoBehaviour
 
         // update spawn point
         vectorToAddToSpawnPoint.y += objectCenterY * 2;
+        Debug.Log("Height: " +(objectCenterY * 2));
 
         // update spawn point to simulate top gap
         vectorToAddToSpawnPoint.y += verticalObject.GetTopGapSize();

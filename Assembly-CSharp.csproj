@@ -54,8 +54,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\InfiniteSpawn.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-     <Compile Include="Assets\Scripts\VerticalObject.cs" />
      <Compile Include="Assets\Scripts\ShapeMovement.cs" />
+     <Compile Include="Assets\Scripts\VerticalObject.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/home/gfsb/Unity/Hub/Editor/2019.4.15f1/Editor/2020.3.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
