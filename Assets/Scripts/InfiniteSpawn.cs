@@ -9,29 +9,27 @@ public class InfiniteSpawn : MonoBehaviour
     [SerializeField] private float bottomGap = 10f;
     [SerializeField] private float topGap = 5f;
     private float availableScreenHeight;
-    [Range(0f, 3f)] [SerializeField] private float screenScaleToAddOn = 2f;
-    private Vector3 startingSpawnPoint;
+    [Range(0f, 3f)] [SerializeField] private float screenScaleFactor = 1.5f;
+    public Vector3 vectorToAddToSpawnPoint = Vector3.zero;
     
     private List<VerticalObject> _verticalObjects;
     
     void Awake()
     {
         // Get ScreenHeight
-        availableScreenHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
-        availableScreenHeight *= (2 + screenScaleToAddOn);
+        availableScreenHeight = Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y) + Mathf.Abs(Camera.main.ScreenToWorldPoint(Vector3.zero).y);
+        availableScreenHeight *= screenScaleFactor;
         
-        Debug.Log("AvailableScreenHeight: "+ availableScreenHeight);
+        
 
-        // Determine the starting spawn point
-        Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        startingSpawnPoint = new Vector3(0, bottomLeft.y);
-        Debug.Log("StartingSpawnPoint: " + startingSpawnPoint);
-
+        _verticalObjects = new List<VerticalObject>();
+        
         // Spawn
         while (availableScreenHeight > 0)
         {
             if (!AddObject(shape)) break;
         }
+        
     }
 
     void Update()
@@ -39,9 +37,38 @@ public class InfiniteSpawn : MonoBehaviour
         // Check first object
         // If out of screen bounds
         
-        // Remove
+        Debug.Log("ScreenArea: " + availableScreenHeight);
+        Debug.Log("VectorToAdd: " + vectorToAddToSpawnPoint);
         
-        // Add
+        bool firstObjectOutOfBounds = IsFirstObjectOutOfBounds();
+
+        if (firstObjectOutOfBounds)
+        {
+            // Remove
+            RemoveFirstObject();
+            
+            // Add
+            AddObject(shape);
+        }
+    }
+
+    private bool IsFirstObjectOutOfBounds()
+    {
+        if (_verticalObjects.Count < 1) return false;
+        VerticalObject firstVerticalObject = _verticalObjects[0];
+        float topOfObjectY = firstVerticalObject.GetObjectPrefab().transform.position.y +
+                     firstVerticalObject.GetObjectVerticalSize() / 2 + firstVerticalObject.GetTopGapSize();
+        
+        // Get Y position of bottom of screen
+        float bottomY = GetPositionAtBottomOfScreen().y;
+
+        // If below screen
+        if (topOfObjectY < bottomY)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private bool AddObject(GameObject objectPrefab)
@@ -53,6 +80,7 @@ public class InfiniteSpawn : MonoBehaviour
         {
             availableScreenHeight -= objectVerticalSize;
             SpawnVerticalObject(verticalObject);
+            _verticalObjects.Add(verticalObject);
             return true;
         }
 
@@ -62,20 +90,20 @@ public class InfiniteSpawn : MonoBehaviour
     private void SpawnVerticalObject(VerticalObject verticalObject)
     {
         // update spawn point to simulate bottom gap
-        startingSpawnPoint.y += verticalObject.GetBottomGapSize();
+        vectorToAddToSpawnPoint.y += verticalObject.GetBottomGapSize();
 
         // spawn object
         GameObject objectToSpawn = verticalObject.GetObjectPrefab();
         float objectCenterY = verticalObject.GetObjectVerticalSize() / 2;
-        Vector3 objectSpawnPosition = startingSpawnPoint + new Vector3(0, objectCenterY, 0);
+        Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(0, objectCenterY, 0);
         objectToSpawn.transform.position = objectSpawnPosition;
-        Instantiate(objectToSpawn);
+        verticalObject.SetObjectPrefab(Instantiate(objectToSpawn));
 
         // update spawn point
-        startingSpawnPoint.y += objectCenterY * 2;
+        vectorToAddToSpawnPoint.y += objectCenterY * 2;
 
         // update spawn point to simulate top gap
-        startingSpawnPoint.y += verticalObject.GetTopGapSize();
+        vectorToAddToSpawnPoint.y += verticalObject.GetTopGapSize();
     }
 
     private void RemoveFirstObject()
@@ -87,11 +115,17 @@ public class InfiniteSpawn : MonoBehaviour
         float verticalSize = objectToRemove.GetVerticalSize();
         availableScreenHeight += verticalSize;
         // Move spawn point down
-        startingSpawnPoint.y -= verticalSize;
+        vectorToAddToSpawnPoint.y -= verticalSize;
         
-        Destroy(objectToRemove.GetObjectPrefab());
+        DestroyImmediate(objectToRemove.GetObjectPrefab(), true);
 
         _verticalObjects.RemoveAt(0);
+    }
+
+    private Vector3 GetPositionAtBottomOfScreen()
+    {
+        Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        return new Vector3(0, bottomLeft.y);
     }
 
 }

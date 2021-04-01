@@ -19,6 +19,11 @@ public class VerticalObject
         return objectPrefab;
     }
 
+    public void SetObjectPrefab(GameObject newObjectPrefab)
+    {
+        objectPrefab = newObjectPrefab;
+    }
+
     public float GetBottomGapSize()
     {
         return bottomGapSize;
