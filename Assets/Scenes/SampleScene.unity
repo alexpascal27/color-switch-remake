@@ -504,6 +504,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
+      propertyPath: topGapMaxSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
+        type: 3}
+      propertyPath: topGapMinSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
+        type: 3}
+      propertyPath: bottomGapMaxSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
+        type: 3}
       propertyPath: screenScaleFactor
       value: 2
       objectReference: {fileID: 0}

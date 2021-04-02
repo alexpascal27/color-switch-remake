@@ -9,6 +9,11 @@ public class InfiniteSpawn : MonoBehaviour
     [SerializeField] private GameObject shape;
     [SerializeField] private float bottomGap = 10f;
     [SerializeField] private float topGap = 5f;
+    [SerializeField] private float bottomGapMinSize = 1f;
+    [SerializeField] private float bottomGapMaxSize = 5f;
+    [SerializeField] private float topGapMinSize = 1f;
+    [SerializeField] private float topGapMaxSize = 5f;
+    
     private float availableScreenHeight;
     [Range(0f, 3f)] [SerializeField] private float screenScaleFactor = 1.5f;
     public Vector3 vectorToAddToSpawnPoint = Vector3.zero;
@@ -74,6 +79,11 @@ public class InfiniteSpawn : MonoBehaviour
         {
             changedBottomGap *= 4f;
             firstTime = false;
+        }
+        else
+        {
+            changedBottomGap = Random.Range(bottomGapMinSize, bottomGapMaxSize);
+            topGap = Random.Range(topGapMinSize, bottomGapMaxSize);
         }
         VerticalObject verticalObject = new VerticalObject(objectPrefab, 7f, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();

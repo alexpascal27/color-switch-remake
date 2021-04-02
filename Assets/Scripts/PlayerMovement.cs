@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         // Pick Random colour
         int colourIndex = Random.Range(0, colourList.Count);
         colour = colourNameList[colourIndex];
-        Debug.Log("Player is colour: " + colour);
         // Set player colour
         gameObject.GetComponent<SpriteRenderer>().color = colourList[colourIndex];
 
