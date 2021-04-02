@@ -96,6 +96,9 @@ public class InfiniteSpawn : MonoBehaviour
 
         // spawn object
         GameObject objectToSpawn = verticalObject.GetObjectPrefab();
+        // Random rotation when starting
+        objectToSpawn.transform.position = Vector3.zero;
+        //objectToSpawn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 359f)));
         // Get position of object
         float objectCenterY = verticalObject.GetObjectVerticalSize() / 2;
         Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(0, objectCenterY, 0);

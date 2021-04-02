@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     private Vector3 currentPosition;
     private Vector3 previousPosition;
-    private List<String> colourList = new List<string>(new []{"Red", "Green", "Blue"});
+    private List<String> colourNameList = new List<string>(new []{"Red", "Green", "Blue"});
+    private List<Color> colourList = new List<Color>(new []{Color.red, Color.green, Color.blue});
     private String colour;
     [SerializeField] private float raycastDistance = 5f;
     [SerializeField] private Transform raycastFiringPoint;
@@ -22,8 +23,12 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         circleCollider2D = gameObject.GetComponent<CircleCollider2D>();
         // Pick Random colour
-        colour = colourList[Random.Range(0, colourList.Count)];
+        int colourIndex = Random.Range(0, colourList.Count);
+        colour = colourNameList[colourIndex];
         Debug.Log("Player is colour: " + colour);
+        // Set player colour
+        gameObject.GetComponent<SpriteRenderer>().color = colourList[colourIndex];
+
     }
 
     void Update()

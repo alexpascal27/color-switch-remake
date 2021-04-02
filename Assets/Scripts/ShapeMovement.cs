@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ShapeMovement : MonoBehaviour
 {
     public float rotationSpeed;
-    [SerializeField] private bool rotateLeft = true;
+    private bool rotateLeft = true;
     private Rigidbody2D rb;
     private Vector3 shapeCenter;
 
@@ -12,6 +13,7 @@ public class ShapeMovement : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         shapeCenter = FindCenter();
+        rotateLeft = Random.Range(0, 2) == 1;
     }
 
     private Vector3 FindCenter()
@@ -40,6 +42,6 @@ public class ShapeMovement : MonoBehaviour
     {
         Vector3 axisOfRotation = rotateLeft ? new Vector3(0, 0, 1) : new Vector3(0, 0, -1);
         float angle = rotationSpeed * Time.deltaTime;
-        rb.transform.RotateAround(shapeCenter, axisOfRotation, angle);
+        rb.transform.RotateAround(shapeCenter , axisOfRotation, angle);
     }
 }
