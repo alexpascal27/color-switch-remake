@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShapeMovement : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed;
+    public float rotationSpeed;
     [SerializeField] private bool rotateLeft = true;
     private Rigidbody2D rb;
     private Vector3 shapeCenter;

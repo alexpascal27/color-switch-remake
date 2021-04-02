@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class InfiniteSpawn : MonoBehaviour
 {
@@ -14,12 +15,14 @@ public class InfiniteSpawn : MonoBehaviour
     private bool firstTime = true;
     private List<VerticalObject> _verticalObjects = new List<VerticalObject>();
     
+    [SerializeField] private float[] rotationSpeedOptions = new float[]{20f, 40f, 60f};
+    [SerializeField] private float[] scaleOptions = new float[]{0.75f, 1f, 1.25f};
+    
     void Awake()
     {
         // Get ScreenHeight
         availableScreenHeight = Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y) + Mathf.Abs(Camera.main.ScreenToWorldPoint(Vector3.zero).y);
         availableScreenHeight *= screenScaleFactor;
-        Debug.Log("AvailableScreenHeight: " + availableScreenHeight);
         
         // Spawn
         while (availableScreenHeight > 0)
@@ -39,12 +42,10 @@ public class InfiniteSpawn : MonoBehaviour
         {
             // Remove
             RemoveFirstObject();
-            Debug.Log("Removed");
             
             // Add
-            Debug.Log("Add: " + AddObject(shape));;
+            AddObject(shape);;
         }
-        
     }
 
     private bool IsFirstObjectOutOfBounds()
@@ -73,7 +74,6 @@ public class InfiniteSpawn : MonoBehaviour
         {
             changedBottomGap *= 4f;
             firstTime = false;
-            Debug.Log("First time");
         }
         VerticalObject verticalObject = new VerticalObject(objectPrefab, 7f, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();
@@ -96,20 +96,49 @@ public class InfiniteSpawn : MonoBehaviour
 
         // spawn object
         GameObject objectToSpawn = verticalObject.GetObjectPrefab();
+        // Get position of object
         float objectCenterY = verticalObject.GetObjectVerticalSize() / 2;
         Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(0, objectCenterY, 0);
         objectToSpawn.transform.position = objectSpawnPosition;
+        // Set scale and rotation of object
+        objectToSpawn = SetScaleAndRotationOfShape(objectToSpawn);
         verticalObject.SetObjectPrefab(Instantiate(objectToSpawn));
+        // Set rotation speed of shape
+        
 
         // update spawn point
         vectorToAddToSpawnPoint.y += objectCenterY * 2;
-        Debug.Log("Height: " +(objectCenterY * 2));
-
         // update spawn point to simulate top gap
         vectorToAddToSpawnPoint.y += verticalObject.GetTopGapSize();
     }
 
-    private void RemoveFirstObject()
+    private GameObject SetScaleAndRotationOfShape(GameObject shapeObject)
+    {
+        Transform parentTransform = shapeObject.transform.parent;
+        shapeObject.transform.parent = null;
+        
+        // Randomise the scale
+        int indexOfScale = Random.Range(0, scaleOptions.Length);
+        float scale = scaleOptions[indexOfScale];
+        shapeObject.transform.localScale = new Vector3(scale, scale);
+
+        shapeObject.transform.parent = parentTransform;
+
+        return SetRotationBasedOnScale(shapeObject, indexOfScale);
+    }
+
+    private GameObject SetRotationBasedOnScale(GameObject shapeObject, int i)
+    {
+        // Get rotation index - reverse of scale (if scale i is 2 then rotation 1 is 0, if scale i is 1 then rotation i is 1)
+        //int rotationIndex = rotationSpeedOptions.Length - 1 - i;
+        
+        // Set rotation speed based on the ShapeMovement Script
+        shapeObject.GetComponent<ShapeMovement>().rotationSpeed = rotationSpeedOptions[i];
+
+        return shapeObject;
+    }
+
+        private void RemoveFirstObject()
     {
         VerticalObject objectToRemove = _verticalObjects[0];
         

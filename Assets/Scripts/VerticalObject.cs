@@ -11,7 +11,7 @@ public class VerticalObject
     public VerticalObject(GameObject objectPrefab, float objectVerticalSize, float bottomGapSize, float topGapSize)
     {
         this.objectPrefab = objectPrefab;
-        this.objectVerticalSize = objectVerticalSize;
+        this.objectVerticalSize = objectVerticalSize * objectPrefab.transform.localScale.y;
         this.bottomGapSize = bottomGapSize;
         this.topGapSize = topGapSize;
     }
