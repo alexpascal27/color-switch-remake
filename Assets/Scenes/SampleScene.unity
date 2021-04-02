@@ -339,7 +339,7 @@ PrefabInstance:
     - target: {fileID: 317095295712631124, guid: 22d600d07da30773da53a1cd6a750ced,
         type: 3}
       propertyPath: jumpForce
-      value: 250
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 317095295712631124, guid: 22d600d07da30773da53a1cd6a750ced,
         type: 3}
@@ -500,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: bottomGap
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
@@ -515,12 +515,12 @@ PrefabInstance:
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: scaleOptions.Array.data[0]
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: scaleOptions.Array.data[1]
-      value: 1.25
+      value: 1.38
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
