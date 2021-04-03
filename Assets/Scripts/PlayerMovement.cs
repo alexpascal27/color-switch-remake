@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]private Text pointsGUIText;
     private Rigidbody2D rb;
     private CircleCollider2D circleCollider2D;
     private int coinScore = 0;
@@ -28,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
         int colourIndex = PickRandomColour();
         // Set player colour
         UpdatePlayerColour(colourIndex);
-
     }
 
     private int PickRandomColour()
@@ -45,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Coin Score: " + coinScore);
         // Send a raycast and if we collide with a collider that has hase tag as us then ignore that collision
         RaycastHit2D raycastHit2D = Physics2D.Raycast(raycastFiringPoint.position, Vector2.up, raycastDistance);
         Collider2D raycastCollider = raycastHit2D.collider;
@@ -96,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Physics2D.IgnoreCollision(collisionGameObject.GetComponent<BoxCollider2D>(), circleCollider2D);
             coinScore++;
+            pointsGUIText.text = coinScore.ToString();
             Destroy(collisionGameObject);
             return;
         }

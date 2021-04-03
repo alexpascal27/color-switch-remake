@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class InfiniteSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject[] shapes;
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private GameObject colourChangePrefab;
     [SerializeField] private float[] shapeSpawnOffsetX;
     [SerializeField] private float[] shapeHeights;
     [SerializeField] private float bottomGap = 10f;
@@ -101,10 +103,32 @@ public class InfiniteSpawn : MonoBehaviour
         VerticalObject verticalObject = new VerticalObject(objectPrefab, shapeHeight, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();
 
-        if (availableScreenHeight - objectVerticalSize > 0)
+        // 70% chance to spawn
+        bool addCoinOrColourChange = Random.Range(0,10) < 7;
+        Debug.Log("AddCoinOrCC: " + addCoinOrColourChange);
+        float coinColourChangeHeight = 2f;
+        VerticalObject cCcVerticalObject = null;
+        if (addCoinOrColourChange)
+        {
+            bool spawnCoin = Random.Range(0, 2) == 1;
+            Debug.Log("SpawnCoin: " + spawnCoin);
+            if (spawnCoin)
+            {
+                cCcVerticalObject = new VerticalObject(coinPrefab,coinColourChangeHeight , 1f, 1f);
+            }
+            else
+            {
+                cCcVerticalObject = new VerticalObject(colourChangePrefab, coinColourChangeHeight, 1f, 1f);
+            }
+        }
+
+        
+
+        if (availableScreenHeight - objectVerticalSize - (addCoinOrColourChange ? coinColourChangeHeight : 0f) > 0)
         {
             availableScreenHeight -= objectVerticalSize;
             SpawnVerticalObject(verticalObject, spawnOffsetX);
+            if(addCoinOrColourChange) SpawnCoinOrCCObject(cCcVerticalObject, 0f);
             _verticalObjects.Add(verticalObject);
             return true;
         }
@@ -130,6 +154,30 @@ public class InfiniteSpawn : MonoBehaviour
         objectToSpawn = SetScaleAndRotationOfShape(objectToSpawn);
         verticalObject.SetObjectPrefab(Instantiate(objectToSpawn));
         // Set rotation speed of shape
+        
+
+        // update spawn point
+        vectorToAddToSpawnPoint.y += objectCenterY * 2;
+        // update spawn point to simulate top gap
+        vectorToAddToSpawnPoint.y += verticalObject.GetTopGapSize();
+    }
+    
+    private void SpawnCoinOrCCObject(VerticalObject verticalObject, float spawnOffsetX)
+    {
+        // update spawn point to simulate bottom gap
+        vectorToAddToSpawnPoint.y += verticalObject.GetBottomGapSize();
+
+        // spawn object
+        GameObject objectToSpawn = verticalObject.GetObjectPrefab();
+        // Random rotation when starting
+        objectToSpawn.transform.position = Vector3.zero;
+        //objectToSpawn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 359f)));
+        // Get position of object
+        float objectCenterY = verticalObject.GetObjectVerticalSize() / 2;
+        Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(spawnOffsetX, objectCenterY, 0);
+        objectToSpawn.transform.position = objectSpawnPosition;
+        // Set scale and rotation of object
+        verticalObject.SetObjectPrefab(Instantiate(objectToSpawn));
         
 
         // update spawn point
