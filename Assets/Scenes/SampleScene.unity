@@ -355,7 +355,7 @@ PrefabInstance:
         type: 3}
       propertyPath: raycastFiringPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1202543493}
     - target: {fileID: 317095295712631126, guid: 22d600d07da30773da53a1cd6a750ced,
         type: 3}
       propertyPath: m_RootOrder
@@ -431,6 +431,12 @@ PrefabInstance:
 --- !u!4 &592512710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 317095295712631126, guid: 22d600d07da30773da53a1cd6a750ced,
+    type: 3}
+  m_PrefabInstance: {fileID: 592512709}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1202543493 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6439292505515379205, guid: 22d600d07da30773da53a1cd6a750ced,
     type: 3}
   m_PrefabInstance: {fileID: 592512709}
   m_PrefabAsset: {fileID: 0}
@@ -525,12 +531,17 @@ PrefabInstance:
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: bottomGapMaxSize
-      value: 3
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
+        type: 3}
+      propertyPath: bottomGapMinSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}
       propertyPath: screenScaleFactor
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1826922091054608062, guid: fc132d11fba4e6a9d9416c30b6661052,
         type: 3}

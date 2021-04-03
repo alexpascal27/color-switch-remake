@@ -43,8 +43,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a988da092924b65c9d82ee55f362260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shape: {fileID: 2970874980239601139, guid: 42a2056dd41af5a80bd1ce373f3c5828, type: 3}
+  shapes:
+  - {fileID: 575125907076965915, guid: 29a56397b5de90f4e901ff94d7a52117, type: 3}
+  - {fileID: 6820397479737373715, guid: 0cebfc5a332b2f54284637b88470a867, type: 3}
+  - {fileID: 7550234351208687408, guid: 961d165851ec3554d95514ae202e3595, type: 3}
   bottomGap: 0.5
   topGap: 0
+  bottomGapMinSize: 1
+  bottomGapMaxSize: 5
+  topGapMinSize: 1
+  topGapMaxSize: 5
   screenScaleFactor: 1.5
   vectorToAddToSpawnPoint: {x: 0, y: 0, z: 0}
+  rotationSpeedOptions:
+  - 20
+  - 40
+  - 60
+  scaleOptions:
+  - 0.75
+  - 1
+  - 1.25

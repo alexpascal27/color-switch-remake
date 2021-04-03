@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class InfiniteSpawn : MonoBehaviour
 {
-    [SerializeField] private GameObject shape;
+    [SerializeField] private GameObject[] shapes;
     [SerializeField] private float bottomGap = 10f;
     [SerializeField] private float topGap = 5f;
     [SerializeField] private float bottomGapMinSize = 1f;
@@ -32,9 +32,15 @@ public class InfiniteSpawn : MonoBehaviour
         // Spawn
         while (availableScreenHeight > 0)
         {
-            if (!AddObject(shape)) break;
+            if (!AddObject(GetRandomShape())) break;
         }
         
+    }
+
+    private GameObject GetRandomShape()
+    {
+        int index = Random.Range(0, shapes.Length);
+        return shapes[index];
     }
 
     void Update()
@@ -49,7 +55,7 @@ public class InfiniteSpawn : MonoBehaviour
             RemoveFirstObject();
             
             // Add
-            AddObject(shape);;
+            AddObject(GetRandomShape());;
         }
     }
 

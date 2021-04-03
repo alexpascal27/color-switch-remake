@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight;
     private Vector3 currentPosition;
     private Vector3 previousPosition;
-    private List<String> colourNameList = new List<string>(new []{"Red", "Green", "Blue"});
-    private List<Color> colourList = new List<Color>(new []{Color.red, Color.green, Color.blue});
+    private List<String> colourNameList = new List<string>(new []{"Red", "Green", "Blue", "Yellow"});
+    private List<Color> colourList = new List<Color>(new []{Color.red, Color.green, Color.blue, Color.yellow});
     private String colour;
     [SerializeField] private float raycastDistance = 5f;
     [SerializeField] private Transform raycastFiringPoint;
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject colliderGameObject = raycastCollider.gameObject;
             if (colliderGameObject.CompareTag(colour))
             {
-                Physics2D.IgnoreCollision(colliderGameObject.GetComponent<BoxCollider2D>(), circleCollider2D);
+                Physics2D.IgnoreCollision(colliderGameObject.GetComponent<Collider2D>(), circleCollider2D);
             }
         }
     }
