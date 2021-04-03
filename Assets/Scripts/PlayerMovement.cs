@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private CircleCollider2D circleCollider2D;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpHeight;
     private Vector3 currentPosition;
     private Vector3 previousPosition;
     private List<String> colourNameList = new List<string>(new []{"Red", "Green", "Blue"});
@@ -23,11 +24,22 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         circleCollider2D = gameObject.GetComponent<CircleCollider2D>();
         // Pick Random colour
+        int colourIndex = PickRandomColour();
+        // Set player colour
+        UpdatePlayerColour(colourIndex);
+
+    }
+
+    private int PickRandomColour()
+    {
         int colourIndex = Random.Range(0, colourList.Count);
         colour = colourNameList[colourIndex];
-        // Set player colour
-        gameObject.GetComponent<SpriteRenderer>().color = colourList[colourIndex];
+        return colourIndex;
+    }
 
+    private void UpdatePlayerColour(int colourIndex)
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = colourList[colourIndex];
     }
 
     void Update()
@@ -57,21 +69,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveUp()
     {
-        // Turn off gravity
-        //float initialGravityScale = rb.gravityScale;
-        //rb.gravityScale = 0f;
-
         // Jump
+        /*
         rb.velocity = Vector3.zero;
         rb.AddForce(new Vector2(0f, jumpForce));    
-        
-        // Turn gravity on
-        //rb.gravityScale = initialGravityScale;
+        */
+        rb.velocity = Vector2.up * jumpHeight; 
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        GameObject collisionGameObject = other.contacts[0].collider.gameObject;
+        GameObject collisionGameObject = other.gameObject;
+        if (collisionGameObject.CompareTag("ColourSwitch"))
+        {
+            Physics2D.IgnoreCollision(collisionGameObject.GetComponent<CircleCollider2D>(), circleCollider2D);
+            // Get another colour
+            int index = PickRandomColour();
+            // Update colour
+            UpdatePlayerColour(index);
+            Destroy(collisionGameObject);
+            return;
+        }
+        collisionGameObject = other.contacts[0].collider.gameObject;
         if (!collisionGameObject.CompareTag(colour))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

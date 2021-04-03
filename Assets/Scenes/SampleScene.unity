@@ -348,9 +348,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 317095295712631124, guid: 22d600d07da30773da53a1cd6a750ced,
         type: 3}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 317095295712631124, guid: 22d600d07da30773da53a1cd6a750ced,
+        type: 3}
       propertyPath: raycastFiringPoint
       value: 
-      objectReference: {fileID: 1461777056}
+      objectReference: {fileID: 0}
     - target: {fileID: 317095295712631126, guid: 22d600d07da30773da53a1cd6a750ced,
         type: 3}
       propertyPath: m_RootOrder
@@ -415,6 +420,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439292505515379205, guid: 22d600d07da30773da53a1cd6a750ced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d600d07da30773da53a1cd6a750ced, type: 3}
@@ -569,36 +579,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc132d11fba4e6a9d9416c30b6661052, type: 3}
---- !u!1 &1461777055
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1461777056}
-  m_Layer: 0
-  m_Name: Ceiling
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1461777056
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461777055}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.52, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 592512710}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735640684
 GameObject:
   m_ObjectHideFlags: 0
