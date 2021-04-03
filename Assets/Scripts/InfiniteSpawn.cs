@@ -104,31 +104,39 @@ public class InfiniteSpawn : MonoBehaviour
         float objectVerticalSize = verticalObject.GetVerticalSize();
 
         // 70% chance to spawn
-        bool addCoinOrColourChange = Random.Range(0,10) < 7;
-        Debug.Log("AddCoinOrCC: " + addCoinOrColourChange);
+        bool addCoinOrColourChange = Random.Range(0,10) < 8;
         float coinColourChangeHeight = 2f;
-        VerticalObject cCcVerticalObject = null;
+        VerticalObject coinObject = null;
+        VerticalObject colourChangeObject = null;
         if (addCoinOrColourChange)
         {
-            bool spawnCoin = Random.Range(0, 2) == 1;
-            Debug.Log("SpawnCoin: " + spawnCoin);
-            if (spawnCoin)
+            // 0 = just coin, 1 = just colour change, 2 = both
+            int spawnID = Random.Range(0, 3);
+            switch (spawnID)
             {
-                cCcVerticalObject = new VerticalObject(coinPrefab,coinColourChangeHeight , 1f, 1f);
-            }
-            else
-            {
-                cCcVerticalObject = new VerticalObject(colourChangePrefab, coinColourChangeHeight, 1f, 1f);
+                case 0:
+                    coinObject = new VerticalObject(coinPrefab,coinColourChangeHeight , 1f, 1f);
+                    break;
+                    
+                case 1:
+                    colourChangeObject = new VerticalObject(colourChangePrefab, coinColourChangeHeight, 1f, 1f);
+                    break;
+                    
+                case 2:
+                    coinObject = new VerticalObject(coinPrefab,coinColourChangeHeight , 1f, 1f);
+                    colourChangeObject = new VerticalObject(colourChangePrefab, coinColourChangeHeight, 1f, 1f);
+                    break;
             }
         }
 
         
 
-        if (availableScreenHeight - objectVerticalSize - (addCoinOrColourChange ? coinColourChangeHeight : 0f) > 0)
+        if (availableScreenHeight - objectVerticalSize - (coinObject==null ? coinColourChangeHeight : 0f) - (colourChangeObject==null ? coinColourChangeHeight : 0f) > 0)
         {
             availableScreenHeight -= objectVerticalSize;
             SpawnVerticalObject(verticalObject, spawnOffsetX);
-            if(addCoinOrColourChange) SpawnCoinOrCCObject(cCcVerticalObject, 0f);
+            if(coinObject!= null) SpawnCoinOrCCObject(coinObject, 0f);
+            if(colourChangeObject != null) SpawnCoinOrCCObject(colourChangeObject, 0f);
             _verticalObjects.Add(verticalObject);
             return true;
         }
