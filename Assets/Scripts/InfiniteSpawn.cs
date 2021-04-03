@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class InfiniteSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject[] shapes;
+    [SerializeField] private float[] shapeSpawnOffsetX;
+    [SerializeField] private float[] shapeHeights;
     [SerializeField] private float bottomGap = 10f;
     [SerializeField] private float topGap = 5f;
     [SerializeField] private float bottomGapMinSize = 1f;
@@ -32,15 +34,15 @@ public class InfiniteSpawn : MonoBehaviour
         // Spawn
         while (availableScreenHeight > 0)
         {
-            if (!AddObject(GetRandomShape())) break;
+            int i = GetRandomShape();
+            if (!AddObject(i)) break;
         }
         
     }
 
-    private GameObject GetRandomShape()
+    private int GetRandomShape()
     {
-        int index = Random.Range(0, shapes.Length);
-        return shapes[index];
+        return Random.Range(0, shapes.Length);
     }
 
     void Update()
@@ -55,7 +57,8 @@ public class InfiniteSpawn : MonoBehaviour
             RemoveFirstObject();
             
             // Add
-            AddObject(GetRandomShape());;
+            int i = GetRandomShape();
+            AddObject(i);
         }
     }
 
@@ -78,8 +81,12 @@ public class InfiniteSpawn : MonoBehaviour
         return false;
     }
 
-    private bool AddObject(GameObject objectPrefab)
+    private bool AddObject(int i)
     {
+        GameObject objectPrefab = shapes[i];
+        float spawnOffsetX = shapeSpawnOffsetX[i];
+        float shapeHeight = shapeHeights[i];
+        
         float changedBottomGap = bottomGap;
         if (firstTime)
         {
@@ -89,15 +96,15 @@ public class InfiniteSpawn : MonoBehaviour
         else
         {
             changedBottomGap = Random.Range(bottomGapMinSize, bottomGapMaxSize);
-            topGap = Random.Range(topGapMinSize, bottomGapMaxSize);
+            topGap = Random.Range(topGapMinSize, topGapMaxSize);
         }
-        VerticalObject verticalObject = new VerticalObject(objectPrefab, 7f, changedBottomGap, topGap);
+        VerticalObject verticalObject = new VerticalObject(objectPrefab, shapeHeight, changedBottomGap, topGap);
         float objectVerticalSize = verticalObject.GetVerticalSize();
 
         if (availableScreenHeight - objectVerticalSize > 0)
         {
             availableScreenHeight -= objectVerticalSize;
-            SpawnVerticalObject(verticalObject);
+            SpawnVerticalObject(verticalObject, spawnOffsetX);
             _verticalObjects.Add(verticalObject);
             return true;
         }
@@ -105,7 +112,7 @@ public class InfiniteSpawn : MonoBehaviour
         return false;
     }
 
-    private void SpawnVerticalObject(VerticalObject verticalObject)
+    private void SpawnVerticalObject(VerticalObject verticalObject, float spawnOffsetX)
     {
         // update spawn point to simulate bottom gap
         vectorToAddToSpawnPoint.y += verticalObject.GetBottomGapSize();
@@ -117,7 +124,7 @@ public class InfiniteSpawn : MonoBehaviour
         //objectToSpawn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0f, 359f)));
         // Get position of object
         float objectCenterY = verticalObject.GetObjectVerticalSize() / 2;
-        Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(0, objectCenterY, 0);
+        Vector3 objectSpawnPosition = GetPositionAtBottomOfScreen() + vectorToAddToSpawnPoint + new Vector3(spawnOffsetX, objectCenterY, 0);
         objectToSpawn.transform.position = objectSpawnPosition;
         // Set scale and rotation of object
         objectToSpawn = SetScaleAndRotationOfShape(objectToSpawn);
