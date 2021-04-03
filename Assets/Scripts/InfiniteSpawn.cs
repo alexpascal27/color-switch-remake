@@ -17,6 +17,7 @@ public class InfiniteSpawn : MonoBehaviour
     [SerializeField] private float bottomGapMaxSize = 5f;
     [SerializeField] private float topGapMinSize = 1f;
     [SerializeField] private float topGapMaxSize = 5f;
+    [SerializeField] private float belowScreenOffset = 5f;
     
     private float availableScreenHeight;
     [Range(0f, 3f)] [SerializeField] private float screenScaleFactor = 1.5f;
@@ -72,7 +73,7 @@ public class InfiniteSpawn : MonoBehaviour
                      firstVerticalObject.GetObjectVerticalSize() / 2 + firstVerticalObject.GetTopGapSize();
         
         // Get Y position of bottom of screen
-        float bottomY = GetPositionAtBottomOfScreen().y;
+        float bottomY = GetPositionAtBottomOfScreen().y - belowScreenOffset;
 
         // If below screen
         if (topOfObjectY < bottomY)
