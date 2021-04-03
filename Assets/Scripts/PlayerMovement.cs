@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CircleCollider2D circleCollider2D;
+    private int coinScore = 0;
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpHeight;
     private Vector3 currentPosition;
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Coin Score: " + coinScore);
         // Send a raycast and if we collide with a collider that has hase tag as us then ignore that collision
         RaycastHit2D raycastHit2D = Physics2D.Raycast(raycastFiringPoint.position, Vector2.up, raycastDistance);
         Collider2D raycastCollider = raycastHit2D.collider;
@@ -87,6 +89,13 @@ public class PlayerMovement : MonoBehaviour
             int index = PickRandomColour();
             // Update colour
             UpdatePlayerColour(index);
+            Destroy(collisionGameObject);
+            return;
+        }
+        else if (collisionGameObject.CompareTag("Coin"))
+        {
+            Physics2D.IgnoreCollision(collisionGameObject.GetComponent<BoxCollider2D>(), circleCollider2D);
+            coinScore++;
             Destroy(collisionGameObject);
             return;
         }
