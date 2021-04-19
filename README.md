@@ -1,7 +1,7 @@
-# Pattern Switch
+# Color Switch Remake
 Recreating the popular game "Color Switch" in an hour.
 ## Gameplay
-![Pattern Switch Gameplay](https://i.ibb.co/0qRXFT5/ezgif-com-gif-maker.gif)
+![Gameplay](https://i.ibb.co/0qRXFT5/ezgif-com-gif-maker.gif)
 
 # Credits
 *I did not create and I do not own any of the art used in this game, all the appropriate creators/owners are named below*
